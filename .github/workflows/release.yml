@@ -1,0 +1,87 @@
+name: Release XPI
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish XPI
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Validate tag and package versions
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Tag must use the form vX.Y.Z (received: $GITHUB_REF_NAME)" >&2
+            exit 1
+          fi
+
+          version="${GITHUB_REF_NAME#v}"
+          manifest_version="$(node -p "require('./addon/manifest.json').version")"
+          package_version="$(node -p "require('./package.json').version")"
+          lock_version="$(node -p "require('./package-lock.json').version")"
+          lock_package_version="$(node -p "require('./package-lock.json').packages[''].version")"
+
+          if [[ "$manifest_version" != "$version" \
+            || "$package_version" != "$version" \
+            || "$lock_version" != "$version" \
+            || "$lock_package_version" != "$version" ]]; then
+            echo "Tag, add-on manifest, package, and lockfile versions must all be $version." >&2
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test and build release
+        run: npm run release
+
+      - name: Verify release files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          version="${GITHUB_REF_NAME#v}"
+          xpi="dist/zotbind-${version}.xpi"
+          checksum="${xpi}.sha256"
+
+          test -f "$xpi"
+          test -f "$checksum"
+          (cd dist && sha256sum --check "zotbind-${version}.xpi.sha256")
+          unzip -t "$xpi"
+
+      - name: Publish GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          version="${GITHUB_REF_NAME#v}"
+          xpi="dist/zotbind-${version}.xpi"
+          checksum="${xpi}.sha256"
+
+          gh release create "$GITHUB_REF_NAME" \
+            "$xpi#ZotBind ${version} XPI" \
+            "$checksum#SHA-256 checksum" \
+            --verify-tag \
+            --generate-notes \
+            --title "ZotBind ${version}"

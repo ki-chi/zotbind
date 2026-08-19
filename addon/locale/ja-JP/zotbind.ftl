@@ -1,0 +1,12 @@
+zotbind-menu-root =
+    .label = ZotBind
+zotbind-menu-set-directory =
+    .label = 論文PDFディレクトリを設定…
+zotbind-menu-sync-now =
+    .label = 今すぐ同期
+zotbind-menu-status =
+    .label = 同期状態を表示
+zotbind-menu-remove-binding =
+    .label = ディレクトリとの関連付けを解除…
+zotbind-menu-preferences =
+    .label = 設定…

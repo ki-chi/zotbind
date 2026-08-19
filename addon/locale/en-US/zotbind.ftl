@@ -1,0 +1,12 @@
+zotbind-menu-root =
+    .label = ZotBind
+zotbind-menu-set-directory =
+    .label = Set papers directory…
+zotbind-menu-sync-now =
+    .label = Sync now
+zotbind-menu-status =
+    .label = Show sync status
+zotbind-menu-remove-binding =
+    .label = Remove papers-directory binding…
+zotbind-menu-preferences =
+    .label = Preferences…

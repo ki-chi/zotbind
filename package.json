@@ -1,0 +1,16 @@
+{
+  "name": "zotbind",
+  "version": "0.1.3",
+  "private": true,
+  "description": "Keep Zotero collection PDF symlinks synchronized with a local directory.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs",
+    "release": "npm test && npm run check && npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

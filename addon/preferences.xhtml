@@ -1,0 +1,51 @@
+<vbox id="zotbind-preferences-root"
+      class="main-section"
+      onload="ZotBindPreferences.init()"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      xmlns:html="http://www.w3.org/1999/xhtml">
+  <description class="zotbind-intro">
+    Bind a Zotero collection to a local directory. ZotBind creates only symbolic links to primary PDFs and never overwrites ordinary files.
+  </description>
+
+  <groupbox class="zotbind-add-box">
+    <label><html:h2>Add or configure a binding</html:h2></label>
+    <html:div class="zotbind-add-grid">
+      <label for="zotbind-collection-picker" value="Collection"/>
+      <menulist id="zotbind-collection-picker" flex="1">
+        <menupopup id="zotbind-collection-popup"/>
+      </menulist>
+      <label for="zotbind-new-directory" value="Papers directory"/>
+      <hbox>
+        <html:input id="zotbind-new-directory" class="zotbind-path-input" readonly="readonly"/>
+        <button label="Choose…" oncommand="window.ZotBindPreferences.chooseNewDirectory()"/>
+      </hbox>
+    </html:div>
+    <hbox pack="end">
+      <button label="Add binding" class="primary" oncommand="window.ZotBindPreferences.addBinding()"/>
+    </hbox>
+  </groupbox>
+
+  <separator class="thin"/>
+  <hbox align="center">
+    <html:h2 class="zotbind-heading">Bindings</html:h2>
+    <spacer flex="1"/>
+    <button label="Sync all" oncommand="window.ZotBindPreferences.syncAll()"/>
+    <button label="Remove all…" oncommand="window.ZotBindPreferences.removeAll()"/>
+  </hbox>
+  <html:div class="zotbind-table-wrap">
+    <html:table class="zotbind-table">
+      <html:thead>
+        <html:tr>
+          <html:th>Collection</html:th>
+          <html:th>Library</html:th>
+          <html:th>Destination</html:th>
+          <html:th>Status</html:th>
+          <html:th>Last sync</html:th>
+          <html:th>Actions</html:th>
+        </html:tr>
+      </html:thead>
+      <html:tbody id="zotbind-binding-rows"/>
+    </html:table>
+    <html:p id="zotbind-empty-state">No collection bindings have been configured.</html:p>
+  </html:div>
+</vbox>

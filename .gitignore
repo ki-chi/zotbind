@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# Dependencies
+node_modules/
+
+# Generated release artifacts
+dist/
+*.xpi
+
+# Test and coverage output
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Editor and temporary files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

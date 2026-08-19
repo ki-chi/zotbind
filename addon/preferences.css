@@ -1,0 +1,75 @@
+#zotbind-preferences-root {
+  min-width: 760px;
+  max-width: 1200px;
+}
+
+.zotbind-intro {
+  margin: 0 0 14px;
+  max-width: 850px;
+}
+
+.zotbind-add-box {
+  padding: 10px 12px;
+}
+
+.zotbind-add-grid {
+  display: grid;
+  grid-template-columns: 130px minmax(350px, 1fr);
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.zotbind-path-input {
+  box-sizing: border-box;
+  min-width: 360px;
+  width: calc(100% - 90px);
+  height: 28px;
+  margin-inline-end: 6px;
+}
+
+.zotbind-heading {
+  margin: 8px 0;
+}
+
+.zotbind-table-wrap {
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: 5px;
+}
+
+.zotbind-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+
+.zotbind-table th,
+.zotbind-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 13%, transparent);
+  text-align: start;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zotbind-table th {
+  font-weight: 600;
+  background: color-mix(in srgb, currentColor 6%, transparent);
+}
+
+.zotbind-actions {
+  min-width: 310px;
+  white-space: normal !important;
+}
+
+.zotbind-actions button {
+  margin: 1px 3px 1px 0;
+}
+
+#zotbind-empty-state {
+  margin: 20px;
+  text-align: center;
+  opacity: 0.7;
+}
