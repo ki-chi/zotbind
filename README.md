@@ -7,15 +7,14 @@ ZotBind is a Zotero 9 add-on that binds a collection to a local papers directory
 1. Open Zotero 9.
 2. Choose **Tools → Plugins**.
 3. Open the gear menu and choose **Install Plugin From File…**.
-4. Select `dist/zotbind-0.1.3.xpi` and restart Zotero if requested.
+4. Select `dist/zotbind-[version].xpi` and restart Zotero if requested.
 
-## Release
-
-Set the same version in `addon/manifest.json`, `package.json`, and `package-lock.json`, then push a matching `vX.Y.Z` tag. GitHub Actions runs the test suite, builds the XPI, verifies its checksum and archive integrity, and attaches the XPI and SHA-256 file to a GitHub Release.
+## Usage
 
 Right-click a collection and choose **ZotBind → Set papers directory…**, or open the ZotBind pane in Zotero Preferences.
 
-On Windows, symbolic links require Developer Mode or a process account with symbolic-link permission. ZotBind reports an error rather than copying files when symlink creation is unavailable.
+> [!NOTE]
+> The author has only tested this add-on on macOS. They are not sure whether it works on Windows or Linux. On Windows, symbolic links require Developer Mode or a process account with symbolic-link permission. ZotBind reports an error rather than copying files when symlink creation is unavailable.
 
 ## Safety and data access
 
