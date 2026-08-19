@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     name: Build and publish XPI
@@ -79,9 +83,27 @@ jobs:
           xpi="dist/zotbind-${version}.xpi"
           checksum="${xpi}.sha256"
 
-          gh release create "$GITHUB_REF_NAME" \
-            "$xpi#ZotBind ${version} XPI" \
-            "$checksum#SHA-256 checksum" \
-            --verify-tag \
-            --generate-notes \
-            --title "ZotBind ${version}"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            assets="$(gh release view "$GITHUB_REF_NAME" --json assets --jq '.assets[].name')"
+            missing=()
+
+            if ! grep -Fxq "$(basename "$xpi")" <<<"$assets"; then
+              missing+=("$xpi#ZotBind ${version} XPI")
+            fi
+            if ! grep -Fxq "$(basename "$checksum")" <<<"$assets"; then
+              missing+=("$checksum#SHA-256 checksum")
+            fi
+
+            if (( ${#missing[@]} )); then
+              gh release upload "$GITHUB_REF_NAME" "${missing[@]}"
+            else
+              echo "Release $GITHUB_REF_NAME already contains the expected assets."
+            fi
+          else
+            gh release create "$GITHUB_REF_NAME" \
+              "$xpi#ZotBind ${version} XPI" \
+              "$checksum#SHA-256 checksum" \
+              --verify-tag \
+              --generate-notes \
+              --title "ZotBind ${version}"
+          fi
